@@ -1,0 +1,121 @@
+using System;
+using System.Globalization;
+
+namespace ValidacaoNotas
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            string opcao = "";
+            bool umErro = false;
+            double X = 0;
+            double Y = 0;
+            double mediaSemestral = 0;
+            do
+            {
+                
+
+                string nota1Text = "";
+                do{
+                    umErro = false;
+                    nota1Text = Console.ReadLine();
+                    nota1Text = TrataNumeroStringDouble(nota1Text);
+                    try
+                    {
+                        X = Double.Parse(nota1Text, CultureInfo.InvariantCulture);
+
+                    }
+                    catch (Exception)
+                    {
+                        
+                        X = 0;
+                        umErro = true;
+                    }
+
+                    if(!(X>=0 && X<=10))
+                    {
+
+                        System.Console.WriteLine("nota invalida");
+                        umErro = true;
+                    }
+                } while (umErro);
+
+                string nota2Text = "";
+                do{
+                    umErro = false;
+                    nota2Text = Console.ReadLine();
+                    nota2Text = TrataNumeroStringDouble(nota2Text);
+                    try
+                    {
+                        Y = Double.Parse(nota2Text, CultureInfo.InvariantCulture);
+
+                    }
+                    catch (Exception)
+                    {
+                        
+                        Y = 0;
+                        umErro = true;
+                    }
+
+                    if(!(Y>=0 && Y<=10))
+                    {
+                        
+                        System.Console.WriteLine("nota invalida");
+                        umErro = true;
+                    }
+                } while (umErro);
+
+
+                
+                mediaSemestral = (X + Y) / 2;
+                mediaSemestral = Math.Round(mediaSemestral,2);
+                
+                System.Console.WriteLine("media = {0:0.00}", mediaSemestral);
+                
+                do
+                {
+                    System.Console.WriteLine("novo calculo (1-sim 2-nao)");
+                    opcao = Console.ReadLine();
+                } while (opcao != "1" && opcao != "2" );
+
+            } while (opcao == "1");
+        }
+
+        private static string TrataNumeroStringDouble(string textoNumero)
+        {
+            int contador = 0;
+            string lerNumero = textoNumero;
+            foreach (char c in lerNumero)
+            {
+                if (c == ',' || c == '.')
+                {
+                    contador++;
+                }
+            }
+            string lerNumeroTemp = "";
+            if (contador > 1)
+            {
+                foreach (char c in lerNumero)
+                {
+                    if (c == ',' || c == '.')
+                    {
+
+                        if (contador <= 1)
+                        {
+                            lerNumeroTemp += c;
+                        }
+                        contador--;
+                    }
+                    else
+                    {
+                        lerNumeroTemp += c;
+                    }
+                }
+                lerNumero = lerNumeroTemp;
+            }
+            return lerNumero;
+        }
+    }
+}
+
